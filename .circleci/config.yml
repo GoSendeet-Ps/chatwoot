@@ -370,7 +370,7 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
-            IMAGE="ghcr.io/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
+            IMAGE="ghcr.io/${CIRCLE_PROJECT_USERNAME,,}/${CIRCLE_PROJECT_REPONAME,,}"
             docker build -f docker/Dockerfile \
               -t "$IMAGE:develop" \
               -t "$IMAGE:sha-$CIRCLE_SHA1" .
@@ -394,7 +394,7 @@ jobs:
       - run:
           name: Deploy on DigitalOcean droplet
           command: |
-            IMAGE="ghcr.io/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME:sha-$CIRCLE_SHA1"
+            IMAGE="ghcr.io/${CIRCLE_PROJECT_USERNAME,,}/${CIRCLE_PROJECT_REPONAME,,}:sha-$CIRCLE_SHA1"
             ssh -i ~/.ssh/id_rsa root@$DO_HOST \<< EOF
               set -e
               mkdir -p /opt/chatwoot
