@@ -164,7 +164,9 @@ jobs:
         env:
           DO_SSH_KEY: ${{ secrets.DO_SSH_KEY }}
       - name: Copy docker-compose to server
-        run: scp -i ~/.ssh/id_rsa docker-compose.production.yaml root@${{ secrets.DO_HOST }}:/opt/chatwoot/docker-compose.production.yaml
+        run: |
+          ssh -i ~/.ssh/id_rsa root@${{ secrets.DO_HOST }} "mkdir -p /opt/chatwoot"
+          scp -i ~/.ssh/id_rsa docker-compose.production.yaml root@${{ secrets.DO_HOST }}:/opt/chatwoot/docker-compose.production.yaml
       - name: Deploy
         run: |
           IMAGE="${{ needs.build-and-push.outputs.image }}:sha-${{ github.sha }}"
