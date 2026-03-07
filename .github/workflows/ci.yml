@@ -177,8 +177,8 @@ jobs:
             echo "$GH_TOKEN" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
             docker pull $IMAGE
             cd /opt/chatwoot
+            CHATWOOT_IMAGE=$IMAGE docker compose -f docker-compose.production.yaml run --rm rails bundle exec rails db:migrate
             CHATWOOT_IMAGE=$IMAGE docker compose -f docker-compose.production.yaml up -d --remove-orphans
-            docker compose -f docker-compose.production.yaml exec -T rails bundle exec rails db:migrate
           EOF
         env:
           APP_ENV_B64: ${{ secrets.APP_ENV }}
