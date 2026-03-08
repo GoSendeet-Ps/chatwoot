@@ -178,7 +178,7 @@ jobs:
             docker pull $IMAGE
             cd /opt/chatwoot
             CHATWOOT_IMAGE=$IMAGE docker compose -f docker-compose.production.yaml run --rm rails bundle exec rails db:chatwoot_prepare
-            CHATWOOT_IMAGE=$IMAGE docker compose -f docker-compose.production.yaml up -d --remove-orphans
+            CHATWOOT_IMAGE=$IMAGE docker compose -f docker-compose.production.yaml up -d --force-recreate --remove-orphans
           EOF
         env:
           APP_ENV_B64: ${{ secrets.APP_ENV }}
